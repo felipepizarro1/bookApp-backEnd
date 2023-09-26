@@ -1,6 +1,7 @@
 package com.bookapp.backend.config;
 
 import com.bookapp.backend.users.model.User;
+import com.bookapp.backend.users.repository.UserRepository;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
@@ -21,30 +22,31 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories()
+@EnableJpaRepositories(basePackageClasses = UserRepository.class, entityManagerFactoryRef = "userDSEmFactory", transactionManagerRef = "userDSTransactionManager" )
 public class UsersDatabaseConfig {
     @Primary
     @Bean
     @ConfigurationProperties("spring.datasource.primary")
-    public DataSourceProperties userDBProperties(){
+    public DataSourceProperties userDSProperties(){
         return new DataSourceProperties();
 
     }
     @Primary
     @Bean
-    public DataSource userDS(@Qualifier("userDBProperties") DataSourceProperties userDBProperties){
+    public DataSource userDS(@Qualifier("userDSProperties") DataSourceProperties userDSProperties){
 
-        return userDBProperties.initializeDataSourceBuilder().build();
+        return userDSProperties.initializeDataSourceBuilder().build();
     }
+    @Primary
     @Bean
-    public LocalContainerEntityManagerFactoryBean userDBEmFactory
+    public LocalContainerEntityManagerFactoryBean userDSEmFactory
             (@Qualifier("userDS") DataSource userDS, EntityManagerFactoryBuilder builder){
         return builder.dataSource(userDS).packages(User.class).build();
     }
     @Primary
     @Bean
-    public PlatformTransactionManager userDSTransactionManager(EntityManagerFactory factory){
-        return new JpaTransactionManager(factory);
+    public PlatformTransactionManager userDSTransactionManager(EntityManagerFactory userDSEmFactory){
+        return new JpaTransactionManager(userDSEmFactory);
     }
 
 }
