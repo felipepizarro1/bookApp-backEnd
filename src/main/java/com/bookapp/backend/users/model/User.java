@@ -1,4 +1,4 @@
-package com.bookapp.backend.model;
+package com.bookapp.backend.users.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
