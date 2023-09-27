@@ -1,8 +1,7 @@
 package com.bookapp.backend.books.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.bookapp.backend.users.model.User;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -18,13 +17,27 @@ public class Book {
     private String trama;
     private int numeroLetture;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id") // Esto establece la relación con la tabla de usuarios
+    private User user;
+
+
+
     private LocalDateTime dataAggiunta;
     private LocalDateTime dataEliminazione;
     private String utenteAggiunta;
     private String utenteEliminazione;
 
+    public Book() {
+    }
 
+    public User getUser() {
+        return user;
+    }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Long getId() {
         return id;

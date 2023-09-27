@@ -5,6 +5,7 @@ import com.bookapp.backend.books.repository.BookRepository;
 import com.bookapp.backend.users.repository.UserRepository;
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -21,6 +22,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackageClasses = BookRepository.class, entityManagerFactoryRef = "bookDSEmFactory", transactionManagerRef = "bookDSTransactionManager" )
+@EntityScan(basePackages = {"com.bookapp.backend.books", "com.bookapp.backend.users"})
 public class BooksDatabaseConfig {
 
     @Bean

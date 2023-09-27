@@ -1,8 +1,10 @@
 package com.bookapp.backend.users.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.bookapp.backend.books.model.Book;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class User {
@@ -14,12 +16,12 @@ public class User {
     private String cognome;
     private String email;
 
-    public User(String nome, String cognome, String email) {
-        this.nome = nome;
-        this.cognome = cognome;
-        this.email = email;
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Book> books = new ArrayList<>();
 
+
+    public User() {
+    }
 
     public Long getId() {
         return id;
