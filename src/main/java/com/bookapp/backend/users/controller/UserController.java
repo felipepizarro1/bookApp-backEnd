@@ -3,6 +3,8 @@ package com.bookapp.backend.users.controller;
 import com.bookapp.backend.users.model.User;
 import com.bookapp.backend.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +15,8 @@ public class UserController {
     private UserRepository userRepository;
 
     @PostMapping("/user")
-    User newUser(@RequestBody User newUser){
-        return userRepository.save(newUser);
+    public ResponseEntity<User> createUser(@RequestBody User newUser) {
+        User createdUser = userRepository.save(newUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 }

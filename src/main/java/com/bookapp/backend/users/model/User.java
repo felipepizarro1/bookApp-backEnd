@@ -16,8 +16,6 @@ public class User {
     private String cognome;
     private String email;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Book> books = new ArrayList<>();
 
 
     public User() {

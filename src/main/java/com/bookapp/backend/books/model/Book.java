@@ -17,9 +17,10 @@ public class Book {
     private String trama;
     private int numeroLetture;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id") // Esto establece la relación con la tabla de usuarios
+    @Transient
     private User user;
+
+    private Long userId;
 
 
 
@@ -29,6 +30,8 @@ public class Book {
     private String utenteEliminazione;
 
     public Book() {
+
+
     }
 
     public User getUser() {
@@ -38,6 +41,17 @@ public class Book {
     public void setUser(User user) {
         this.user = user;
     }
+
+
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
 
     public Long getId() {
         return id;
