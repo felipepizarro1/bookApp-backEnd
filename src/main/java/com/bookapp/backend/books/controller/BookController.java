@@ -28,7 +28,7 @@ public class BookController {
             return ResponseEntity.badRequest().body("User not found");
         }
         User user = optionalUser.get();
-
+        book.setUserId(user.getId());
         // Asignar el usuario al libro
 
         bookRepository.save(book);
