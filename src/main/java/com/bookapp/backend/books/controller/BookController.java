@@ -48,4 +48,65 @@ public class BookController {
 
         return ResponseEntity.ok(userBooks);
     }
+
+    @PutMapping("/user/{userId}/book/{bookId}")
+    public ResponseEntity<String> updateBook(@PathVariable Long userId, @PathVariable Long bookId, @RequestBody Book updatedBook) {
+        // Verificar si el usuario existe
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.badRequest().body("User not found");
+        }
+        User user = optionalUser.get();
+
+        // Verificar si el libro existe
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        if (optionalBook.isEmpty()) {
+            return ResponseEntity.badRequest().body("Book not found");
+        }
+        Book book = optionalBook.get();
+
+        // Verificar si el libro pertenece al usuario
+        if (!book.getUser().equals(user)) {
+            return ResponseEntity.badRequest().body("Book does not belong to the user");
+        }
+
+        // Actualizar los atributos del libro
+        book.setTitolo(updatedBook.getTitolo());
+        book.setAutore(updatedBook.getAutore());
+        // Actualizar otros atributos según sea necesario
+
+        // Guardar los cambios en el libro
+        bookRepository.save(book);
+
+        return ResponseEntity.ok("Book updated successfully");
+    }
+
+    @DeleteMapping("/user/{userId}/book/{bookId}")
+    public ResponseEntity<String> deleteBook(@PathVariable Long userId, @PathVariable Long bookId) {
+        // Verificar si el usuario existe
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.badRequest().body("User not found");
+        }
+        User user = optionalUser.get();
+
+        // Verificar si el libro existe
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        if (optionalBook.isEmpty()) {
+            return ResponseEntity.badRequest().body("Book not found");
+        }
+        Book book = optionalBook.get();
+
+        // Verificar si el libro pertenece al usuario
+        if (!book.getUser().equals(user)) {
+            return ResponseEntity.badRequest().body("Book does not belong to the user");
+        }
+
+        // Eliminar el libro
+        bookRepository.delete(book);
+
+        return ResponseEntity.ok("Book deleted successfully");
+    }
+
+
 }
