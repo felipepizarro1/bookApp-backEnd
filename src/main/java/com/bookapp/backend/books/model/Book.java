@@ -20,6 +20,7 @@ public class Book {
     @Transient
     private User user;
 
+    @Column(name = "user_id")
     private Long userId;
 
 
